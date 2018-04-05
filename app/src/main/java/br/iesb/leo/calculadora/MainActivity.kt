@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         var textView_display: TextView = findViewById(R.id.textView_display)
 
         //numeros
-        var textView_num0: TextView = findViewById(R.id.textView_num0)
+       /* var textView_num0: TextView = findViewById(R.id.textView_num0)
         var textView_num1: TextView = findViewById(R.id.textView_num1)
         var textView_num2: TextView = findViewById(R.id.textView_num2)
         var textView_num3: TextView = findViewById(R.id.textView_num3)
@@ -35,19 +35,19 @@ class MainActivity : AppCompatActivity() {
         var textView_num6: TextView = findViewById(R.id.textView_num6)
         var textView_num7: TextView = findViewById(R.id.textView_num7)
         var textView_num8: TextView = findViewById(R.id.textView_num8)
-        var textView_num9: TextView = findViewById(R.id.textView_num9)
+        var textView_num9: TextView = findViewById(R.id.textView_num9)*/
 
         //operações
-        var textView_op_add: TextView = findViewById(R.id.textView_op_add)
+        /*var textView_op_add: TextView = findViewById(R.id.textView_op_add)
         var textView_op_min: TextView = findViewById(R.id.textView_op_min)
         var textView_op_mult: TextView = findViewById(R.id.textView_op_mult)
-        var textView_op_div: TextView = findViewById(R.id.textView_op_div)
+        var textView_op_div: TextView = findViewById(R.id.textView_op_div)*/
 
         //não numericos
-        var textView_ac: TextView = findViewById(R.id.textView_ac)
+        /*var textView_ac: TextView = findViewById(R.id.textView_ac)
         var textView_left_arrow: TextView = findViewById(R.id.textView_left_arrow)
         var textView_percent: TextView = findViewById(R.id.textView_percent)
-        var textView_point: TextView = findViewById(R.id.textView_point)
+        var textView_point: TextView = findViewById(R.id.textView_point)*/
 
 
 
@@ -64,35 +64,36 @@ class MainActivity : AppCompatActivity() {
         }
 
         // escreve no display os números e o ponto conforme digitados
-        textView_num0.setOnClickListener { writeOnDisplayNumber(textView_num0.getText()) }
-        textView_num1.setOnClickListener { writeOnDisplayNumber(textView_num1.getText()) }
-        textView_num2.setOnClickListener { writeOnDisplayNumber(textView_num2.getText()) }
-        textView_num3.setOnClickListener { writeOnDisplayNumber(textView_num3.getText()) }
-        textView_num4.setOnClickListener { writeOnDisplayNumber(textView_num4.getText()) }
-        textView_num5.setOnClickListener { writeOnDisplayNumber(textView_num5.getText()) }
-        textView_num6.setOnClickListener { writeOnDisplayNumber(textView_num6.getText()) }
-        textView_num7.setOnClickListener { writeOnDisplayNumber(textView_num7.getText()) }
-        textView_num8.setOnClickListener { writeOnDisplayNumber(textView_num8.getText()) }
-        textView_num9.setOnClickListener { writeOnDisplayNumber(textView_num9.getText()) }
-        textView_point.setOnClickListener { writeOnDisplayNumber(textView_point.getText()) }
+        textView_num0.setOnClickListener { writeOnDisplayNumber(textView_num0) }
+        textView_num1.setOnClickListener { writeOnDisplayNumber(textView_num1) }
+        textView_num2.setOnClickListener { writeOnDisplayNumber(textView_num2) }
+        textView_num3.setOnClickListener { writeOnDisplayNumber(textView_num3) }
+        textView_num4.setOnClickListener { writeOnDisplayNumber(textView_num4) }
+        textView_num5.setOnClickListener { writeOnDisplayNumber(textView_num5) }
+        textView_num6.setOnClickListener { writeOnDisplayNumber(textView_num6) }
+        textView_num7.setOnClickListener { writeOnDisplayNumber(textView_num7) }
+        textView_num8.setOnClickListener { writeOnDisplayNumber(textView_num8) }
+        textView_num9.setOnClickListener { writeOnDisplayNumber(textView_num9) }
+        textView_point.setOnClickListener { writeOnDisplayNumber(textView_point) }
 
         //
         textView_ac.setOnClickListener { clearDisplay()}
-        textView_op_add.setOnClickListener{ writeOnDisplayOperation(textView_op_add.getText())}
-        textView_op_mult.setOnClickListener{ writeOnDisplayOperation(textView_op_mult.getText())}
-        textView_op_min.setOnClickListener{ writeOnDisplayOperation(textView_op_min.getText())}
-        textView_op_div.setOnClickListener{ writeOnDisplayOperation(textView_op_div.getText())}
+        textView_op_add.setOnClickListener{ writeOnDisplayOperation(textView_op_add.text)}
+        textView_op_mult.setOnClickListener{ writeOnDisplayOperation(textView_op_mult.text)}
+        textView_op_min.setOnClickListener{ writeOnDisplayOperation(textView_op_min.text)}
+        textView_op_div.setOnClickListener{ writeOnDisplayOperation(textView_op_div.text)}
+        textView_percent.setOnClickListener { writeOnDisplayOperation(textView_percent.text) }
 
         textView_equals.setOnClickListener { defineCalc()}
 
     }
 
     // essa função será chamada toda vez que for necessário escrever no display um numero.
-    fun writeOnDisplayNumber(text : CharSequence) {
-        if(textView_display.getText() == "0"){
+    fun writeOnDisplayNumber(text : TextView) {
+        if(textView_display.text == "0"){
             textView_display.setText("")
         }
-        var display : CharSequence = "${textView_display.getText()}${text}"
+        var display : CharSequence = "${textView_display.text}${text.text}"
         textView_display.setText(display)
         blinkEffect(Color.BLUE)
         //Log.i("button value--->",text as String)
@@ -101,27 +102,36 @@ class MainActivity : AppCompatActivity() {
 
     // essa função será chamada toda vez que for necessário escrever no display um numero.
     fun writeOnDisplayOperation(opSymbol : CharSequence) {
-        if(textView_display.getText().contains("+") ||
-           textView_display.getText().contains("x") ||
-           textView_display.getText().contains("-") ||
-           textView_display.getText().contains("/")){
+        if(textView_display.text.contains("+") ||
+           textView_display.text.contains("x") ||
+           textView_display.text.contains("-") ||
+           textView_display.text.contains("/")){
 
             printToast("Você já tem uma operação para calcular.")
             return
         }
 
 
-        var display : CharSequence = "${textView_display.getText()}${opSymbol}"
+        var display : CharSequence = "${textView_display.text}${opSymbol}"
         textView_display.setText(display)
         operand = opSymbol
     }
 
     fun defineCalc (){
 
-        var calc = Calculo()
+        var exp: List<String> = textView_display.text.split("+","-","x","\u00F7","%")
+        // \u00F7 é o encoding C/C++/Java do operador de divisão.
+        if(exp[0].equals("") || exp[1].equals("")){
+
+            printToast("Expressão inválida. Verifique a expressão.")
+            return
+        }
+
+        //var calc = Calculo()
+        var calc = CalculoDecoratorA()
 
         textView_display.setText(
-                calc.defineOperation(textView_display.getText() as String, operand))
+                calc.defineOperation(textView_display.text as String, operand))
         //Log.i("add result --->",result as String)
     }
 
@@ -138,10 +148,11 @@ class MainActivity : AppCompatActivity() {
         anim.setDuration(1000)
         anim.setEvaluator(ArgbEvaluator())
         //anim.setRepeatMode(Animation.REVERSE)
-        anim.setRepeatCount(1)
+        anim.setRepeatCount(0)
         anim.start()
 
     }
+
 
     fun printToast(message: CharSequence){
         var context: Context = getApplicationContext()
