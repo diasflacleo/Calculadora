@@ -13,7 +13,7 @@ import android.view.animation.Animation
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-
+import org.jetbrains.anko.longToast
 
 
 class MainActivity : AppCompatActivity() {
@@ -86,6 +86,8 @@ class MainActivity : AppCompatActivity() {
 
         textView_equals.setOnClickListener { defineCalc()}
 
+        textView_left_arrow.setOnClickListener{removeLastChar(textView_display.text)}
+
     }
 
     // essa função será chamada toda vez que for necessário escrever no display um numero.
@@ -107,7 +109,7 @@ class MainActivity : AppCompatActivity() {
            textView_display.text.contains("-") ||
            textView_display.text.contains("/")){
 
-            printToast("Você já tem uma operação para calcular.")
+            longToast("Você já tem uma operação para calcular.")
             return
         }
 
@@ -121,18 +123,23 @@ class MainActivity : AppCompatActivity() {
 
         var exp: List<String> = textView_display.text.split("+","-","x","\u00F7","%")
         // \u00F7 é o encoding C/C++/Java do operador de divisão.
-        if(exp[0].equals("") || exp[1].equals("")){
 
-            printToast("Expressão inválida. Verifique a expressão.")
-            return
+        if(exp.size > 1) {
+            if (exp[0].equals("") || exp[1].equals("")) {
+
+                longToast("Expressão inválida. Verifique a expressão.")
+                return
+            }
+
+            //var calc = Calculo()
+            var calc = CalculoDecoratorA()
+
+            textView_display.setText(
+                    calc.defineOperation(textView_display.text as String, operand))
+            //Log.i("add result --->",result as String)
+        }else{
+            longToast("Defina uma operação.")
         }
-
-        //var calc = Calculo()
-        var calc = CalculoDecoratorA()
-
-        textView_display.setText(
-                calc.defineOperation(textView_display.text as String, operand))
-        //Log.i("add result --->",result as String)
     }
 
     //limpeza do display
@@ -153,11 +160,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-    fun printToast(message: CharSequence){
-        var context: Context = getApplicationContext()
-        var duration: Int = Toast.LENGTH_LONG
-        Toast.makeText(context, message, duration).show()
+    fun removeLastChar(text: CharSequence){
+        var textLastRemoved = text.dropLast(1)
+        if (textLastRemoved.equals("")){
+            textView_display.text = "0"
+        }else {
+            textView_display.text = textLastRemoved
+        }
     }
 
 }

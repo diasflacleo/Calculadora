@@ -48,7 +48,7 @@
         android:textColor="@drawable/button_numeric"
         android:clickable="true"
         android:gravity="center"
-        android:text="A"
+        android:text="\u2190"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView_num8"
